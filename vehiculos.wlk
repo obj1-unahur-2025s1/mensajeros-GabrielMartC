@@ -1,5 +1,5 @@
 object bicicleta{
-    method peso() = 40
+    method peso() = 5
 }
 
 object camion{
