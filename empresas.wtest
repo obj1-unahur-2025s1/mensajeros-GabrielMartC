@@ -1,27 +1,27 @@
 import destinos.*
 import mensajeros.*
 import empresas.*
-describe "test de coleccion de mansajeria" {
+// describe "test de coleccion de mansajeria" {
 
 
 
-    test "La mensajeria es Grande" {
-        mensajeria.contratarMensajero(chuckNorris)
-        mensajeria.contratarMensajero(neo)
-        mensajeria.contratarMensajero(roberto)
-        assert.that(mensajeria.esGrande())
-    }
+//     test "La mensajeria es Grande" {
+//         mensajeria.contratarMensajero(chuckNorris)
+//         mensajeria.contratarMensajero(neo)
+//         mensajeria.contratarMensajero(roberto)
+//         assert.that(mensajeria.esGrande())
+//     }
 
-    test "El peso del ultimo mensajero es 130" {
-        mensajeria.contratarMensajero(neo)
-        mensajeria.contratarMensajero(roberto)
-        assert.equals(130, mensajeria.pesoUltMens())
-    }
+//     test "El peso del ultimo mensajero es 130" {
+//         mensajeria.contratarMensajero(neo)
+//         mensajeria.contratarMensajero(roberto)
+//         assert.equals(130, mensajeria.pesoUltMens())
+//     }
 
-    test "El primer mensajero puede enviar paquete a matrix"{
-        celular.recargarCredito(300)
-        mensajeria.contratarMensajero(neo)
-        mensajeria.contratarMensajero(roberto)
-        assert.that(mensajeria.paquetePuedeSerEntrPorPrimMens(matrix))
-    }
-}
+//     test "El primer mensajero puede enviar paquete a matrix"{
+//         celular.recargarCredito(300)
+//         mensajeria.contratarMensajero(neo)
+//         mensajeria.contratarMensajero(roberto)
+//         assert.that(mensajeria.paquetePuedeSerEntrPorPrimMens(matrix))
+//     }
+// }

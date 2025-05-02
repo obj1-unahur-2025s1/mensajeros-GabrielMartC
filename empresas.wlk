@@ -6,6 +6,7 @@ object mensajeria{
     const paquetesPendientes = [] 
     const paquetesEnviados = [] 
 
+    method paquetesEnviados() = paquetesEnviados //para test
 
 
     method mensajeros() = mensajeros
@@ -24,8 +25,8 @@ object mensajeria{
     // }
 
 
-    method paquetePuedeSerEntrPorPrimMens(){
-        return paquete.puedeSerEntregado(mensajeros.first())
+    method paquetePuedeSerEntrPorPrimMens(unPaquete){
+        return unPaquete.puedeSerEntregado(mensajeros.first())
     }
 
     // method pesoUltMens(){
@@ -39,28 +40,25 @@ object mensajeria{
 
     // parte 3
     //1
-    method puedeEntregarse(unPaquete){
+    method paquetePuedeSerEntregado(unPaquete){
         return mensajeros.any({mens => unPaquete.puedeSerEntregado(mens)})
     }
 
-    //2
-    method losQuePuedenEntregarUnPaquete(unPaquete){ //devuelve sublista
+    method mensajerosQuePuedenLlevarPaquete(unPaquete){
+        //retorna sublista
         return mensajeros.filter({mens => unPaquete.puedeSerEntregado(mens)})
     }
 
-    //3
     method tieneSobrepeso(){
-        return self.totalPesoDeLosMensajeros() / mensajeros.size() > 500
+        return self.promedioPesoTotalMens() > 500
     }
 
-    //metodo auxiliar
-    method totalPesoDeLosMensajeros(){
-        return mensajeros.sum({mens => mens.peso()})
+    method promedioPesoTotalMens() { //ret int
+        return mensajeros.sum({mens => mens.peso()}) / mensajeros.size()
     }
 
-    //4
-    method enviar(unPaquete){
-        if(self.puedeEntregarse(unPaquete)){
+    method enviarPaquete(unPaquete){
+        if(self.paquetePuedeSerEntregado(unPaquete)){
             paquetesEnviados.add(unPaquete)
         }
         else{
@@ -68,31 +66,25 @@ object mensajeria{
         }
     }
 
-    //5
-    method facturacion(){
+    method facturacionTotal(){
         return paquetesEnviados.sum({paq => paq.precioTotal()})
     }
 
-    //6
-    method enviarPaquetes(listaPaquetes){
-        paquetesPendientes.forEach({paq => self.enviar(paq)})
+    method enviarMuchosPaquetes(paquetes){
+        paquetes.forEach({paq => self.enviarPaquete(paq)})
     }
 
-    //7
-    method enviarPendienteMasCaro(){
-        // return self.enviar()
-        if(self.puedeEntregarse(self.paquetePendienteMasCaro())){
-            self.enviar(self.paquetePendienteMasCaro())
-            paquetesPendientes.remove(self.paquetePendienteMasCaro())
+    method enviarPaqueteMasCaro(){
+        if(self.paquetePuedeSerEntregado(self.paquetePendMasCaro())){
+            self.enviarPaquete(self.paquetePendMasCaro())
+            paquetesPendientes.remove(self.paquetePendMasCaro())
         }
     }
 
-    //aux
-    method paquetePendienteMasCaro(){
+    method paquetePendMasCaro(){
         return paquetesPendientes.max({paq => paq.precioTotal()})
     }
 
-    //resolver 8 y 9
 
 
 }

@@ -1,5 +1,6 @@
 import mensajeros.*
 import destinos.*
+
 object paquete{
     var estaPago = false
     var destino = matrix
@@ -40,7 +41,7 @@ object paquetito{
 
 }
 
-object pequeton {
+object paqueton {
     const destinos = []
     var importePagado = 0
 
@@ -53,7 +54,7 @@ object pequeton {
     }
 
     method puedeSerEntregado(unMensajero){
-        self.estaPago() && self.puedePasarPorDestinos(unMensajero)
+        return self.estaPago() && self.puedePasarPorDestinos(unMensajero)
     }
 
     method puedePasarPorDestinos(unMensajero){ //funcion auxiliar

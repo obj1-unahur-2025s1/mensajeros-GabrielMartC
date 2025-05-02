@@ -21,24 +21,116 @@ describe "tests de segunda parte" {
     }
 
     test "solo con neo la mensajeria no es grande" {
-      assert.notThat(mensajeria.mensajeros().size())
+        mensajeria.contratarMensajero(neo)
+        assert.notThat(mensajeria.esGrande())
     }
 
     test "si agrego a chuck y roberto, ahora es grande"{
         mensajeria.contratarMensajero(chuckNorris)
         mensajeria.contratarMensajero(roberto)
-        assert.that(mensajeria.mensajeros().size())
+        assert.that(mensajeria.esGrande())
     }
 
-    test "Neo puede entregar el paquete" {
+    test "Neo puede entregar un paquete" {
       paquete.pagarPaquete()
       neo.cargarCredito()
-      assert.that(mensajeria.paquetePuedeSerEntrPorPrimMens())
+      assert.that(mensajeria.paquetePuedeSerEntrPorPrimMens(paquete))
     }
 
     test "El peso de roberto es 95" {
         mensajeria.contratarMensajero(roberto)
         assert.equals(95, mensajeria.pesoUltMens())
     }
+
+}
+
+describe "test tercera parte" {
+    test "paqueton puede ser entregado por algun mensajero" {
+        neo.cargarCredito()
+        mensajeria.contratarMensajero(neo)
+
+        paqueton.agregarDestino(matrix)
+        paqueton.agregarDestino(puenteBlooklyn)
+        paqueton.pagar(200)
+
+        assert.that(mensajeria.paquetePuedeSerEntregado(paqueton))
+
+    }
+
+    test "el mensajero contratado neo puede llevar el paquete" {
+        neo.cargarCredito()
+        mensajeria.contratarMensajero(neo)
+        mensajeria.contratarMensajero(roberto)
+
+        paqueton.agregarDestino(matrix)
+        paqueton.agregarDestino(puenteBlooklyn)
+        paqueton.pagar(200)
+
+        assert.equals(neo, mensajeria.mensajerosQuePuedenLlevarPaquete(paqueton).get(0))
+    }
+
+    test "la mensajeria tiene sobrepeso" {
+        camion.agregarAcoplados(5)
+        roberto.cambiarVehiculo(camion)
+        
+        mensajeria.contratarMensajero(neo)
+        mensajeria.contratarMensajero(roberto)
+        mensajeria.contratarMensajero(chuckNorris)
+
+        assert.that(mensajeria.tieneSobrepeso())
+    }
+
+    test "la mensajeria envio un paquete" {
+        mensajeria.contratarMensajero(neo)
+
+        paquete.pagarPaquete()
+        neo.cargarCredito()
+
+        mensajeria.enviarPaquete(paquete)
+
+        assert.notThat(mensajeria.paquetesEnviados().isEmpty())
+    }
+
+    test "la facturacion de la empresa es de 50 pesos" {
+        mensajeria.contratarMensajero(neo)
+
+        paquete.pagarPaquete()
+        neo.cargarCredito()
+
+        mensajeria.enviarPaquete(paquete)
+        mensajeria.enviarPaquete(paquetito)
+
+        assert.equals(50, mensajeria.facturacionTotal())
+    }
+
+    test "3 paquetones fueron enviados" {
+        mensajeria.contratarMensajero(chuckNorris)
+
+        paqueton.agregarDestino(matrix)
+        paqueton.agregarDestino(puenteBlooklyn)
+        paqueton.pagar(200)
+
+        mensajeria.enviarMuchosPaquetes([paqueton, paqueton , paqueton])
+
+        assert.equals(3, mensajeria.paquetesEnviados().size())
+    }
+
+    test "el paquete mas caro fue enviado" {
+        paquete.pagarPaquete()
+        paqueton.agregarDestino(matrix)
+        paqueton.agregarDestino(puenteBlooklyn)
+        paqueton.pagar(200)
+
+        mensajeria.enviarMuchosPaquetes([paquete, paquetito, paqueton])
+
+        mensajeria.contratarMensajero(chuckNorris)
+        mensajeria.enviarPaqueteMasCaro()
+
+      
+        assert.that(mensajeria.paquetesEnviados().contains(paqueton))
+    }
+
+
+
 
 }
